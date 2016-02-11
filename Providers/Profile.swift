@@ -28,6 +28,7 @@ public protocol SyncManager {
     func syncHistory() -> SyncResult
     func syncLogins() -> SyncResult
     func syncEverything() -> Success
+    func syncOnExit() -> Success
 
     // The simplest possible approach.
     func beginTimedSyncs()
@@ -534,6 +535,8 @@ public class BrowserProfile: Profile {
 
         private var syncTimer: NSTimer? = nil
 
+        private var currentSync: Success? = nil
+
         private var backgrounded: Bool = true
         func applicationDidEnterBackground() {
             self.backgrounded = true
@@ -903,13 +906,21 @@ public class BrowserProfile: Profile {
         }
 
         func syncEverything() -> Success {
-            return self.syncSeveral(
+            let job = self.syncSeveral(
                 ("clients", self.syncClientsWithDelegate),
                 ("tabs", self.syncTabsWithDelegate),
                 ("logins", self.syncLoginsWithDelegate),
                 ("bookmarks", self.mirrorBookmarksWithDelegate),
                 ("history", self.syncHistoryWithDelegate)
             ) >>> succeed
+
+            let completed: Success = job.map({ _ in
+                self.currentSync = nil
+                return Maybe<()>(success: ())
+            })
+            self.currentSync = completed
+
+            return completed
         }
 
         func syncEverythingSoon() {
@@ -917,6 +928,10 @@ public class BrowserProfile: Profile {
                 log.debug("Running delayed startup sync.")
                 self.syncEverything()
             }
+        }
+
+        func syncOnExit() -> Success {
+            return currentSync ?? syncEverything()
         }
 
         @objc func syncOnTimer() {
@@ -970,7 +985,6 @@ public class BrowserProfile: Profile {
             let stopBy = start + OneMinuteInMilliseconds
             log.debug("Checking green light. Backgrounded: \(self.backgrounded).")
             return {
-                !self.backgrounded &&
                 NSDate.now() < stopBy &&
                 self.profile.hasSyncableAccount()
             }
