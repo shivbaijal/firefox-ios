@@ -13,6 +13,9 @@ MOZ_PRODUCT_NAME = FirefoxNightly
 // Bundle Identifier
 MOZ_BUNDLE_ID = org.mozilla.ios.FirefoxNightly
 
+// Bundle Identifier for Enterprise builds
+MOZ_ENTERPRISE_BUNDLE_ID = org.mozilla.ios.FirefoxNightly.enterprise
+
 // Product Name
 MOZ_SOCORRO_PRODUCT_NAME = FirefoxNightlyiOS
 

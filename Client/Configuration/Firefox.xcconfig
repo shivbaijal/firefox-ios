@@ -13,6 +13,9 @@ MOZ_PRODUCT_NAME = Firefox
 // Bundle Identifier
 MOZ_BUNDLE_ID = org.mozilla.ios.Firefox
 
+// Bundle Identifier for Enterprise builds
+MOZ_ENTERPRISE_BUNDLE_ID = org.mozilla.ios.Firefox.enterprise
+
 // Product Name
 MOZ_SOCORRO_PRODUCT_NAME = FirefoxiOS
 

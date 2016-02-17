@@ -13,6 +13,9 @@ MOZ_PRODUCT_NAME = Fennec
 // Bundle Identifier
 MOZ_BUNDLE_ID = org.mozilla.ios.Fennec
 
+// Bundle Identifier for Enterprise builds
+MOZ_ENTERPRISE_BUNDLE_ID = org.mozilla.ios.Fennec.enterprise
+
 // Product Name
 MOZ_SOCORRO_PRODUCT_NAME = FenneciOS
 

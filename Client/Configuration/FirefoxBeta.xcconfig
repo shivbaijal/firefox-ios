@@ -13,6 +13,9 @@ MOZ_PRODUCT_NAME = FirefoxBeta
 // Bundle Identifier
 MOZ_BUNDLE_ID = org.mozilla.ios.FirefoxBeta
 
+// Bundle Identifier for Enterprise builds
+MOZ_ENTERPRISE_BUNDLE_ID = org.mozilla.ios.FirefoxBeta.enterprise
+
 // Product Name
 MOZ_SOCORRO_PRODUCT_NAME = FirefoxBetaiOS
 
