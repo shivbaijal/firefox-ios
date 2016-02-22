@@ -22,6 +22,7 @@ class TurnPasscodeOnSetting: Setting {
         let passcodeVC = PasscodeConfirmViewController.newPasscodeVC(prefs: self.prefs)
         passcodeVC.title = AuthenticationStrings.setPasscode
         let passcodeNav = UINavigationController(rootViewController: passcodeVC)
+        passcodeNav.modalPresentationStyle = .CurrentContext
         navigationController?.presentViewController(passcodeNav, animated: true, completion: nil)
     }
 }
@@ -39,6 +40,7 @@ class TurnPasscodeOffSetting: Setting {
         let passcodeVC = PasscodeConfirmViewController.removePasscodeVC(prefs: self.prefs)
         passcodeVC.title = AuthenticationStrings.turnOffPasscode
         let passcodeNav = UINavigationController(rootViewController: passcodeVC)
+        passcodeNav.modalPresentationStyle = .CurrentContext
         navigationController?.presentViewController(passcodeNav, animated: true, completion: nil)
     }
 }
@@ -61,6 +63,7 @@ class ChangePasscodeSetting: Setting {
         let passcodeVC = PasscodeConfirmViewController.changePasscodeVC(prefs: self.prefs)
         passcodeVC.title = AuthenticationStrings.changePasscode
         let passcodeNav = UINavigationController(rootViewController: passcodeVC)
+        passcodeNav.modalPresentationStyle = .CurrentContext
         navigationController?.presentViewController(passcodeNav, animated: true, completion: nil)
     }
 }
