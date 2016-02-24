@@ -1,0 +1,61 @@
+From 2e17b09c0fc5f9772052b6dfb4868c424049b12e Mon Sep 17 00:00:00 2001
+From: Shiv Baijal <shiv.baijal@mail.utoronto.ca>
+Date: Tue, 23 Feb 2016 18:47:13 -0500
+Subject: [PATCH] Bug 1145380 - Added touch feedback to home screen links
+
+---
+ Client/Frontend/Widgets/ThumbnailCell.swift | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/Client/Frontend/Widgets/ThumbnailCell.swift b/Client/Frontend/Widgets/ThumbnailCell.swift
+index 8438899..3cb8b70 100644
+--- a/Client/Frontend/Widgets/ThumbnailCell.swift
++++ b/Client/Frontend/Widgets/ThumbnailCell.swift
+@@ -13,6 +13,7 @@ struct ThumbnailCellUX {
+     static let LabelColor = UIAccessibilityDarkerSystemColorsEnabled() ? UIColor.blackColor() : UIColor(rgb: 0x353535)
+     static let LabelBackgroundColor = UIColor(white: 1.0, alpha: 0.5)
+     static let LabelAlignment: NSTextAlignment = .Center
++    static let SelectedOverlayColor = UIColor(white: 0.0, alpha: 0.25)
+     static let InsetSize: CGFloat = 20
+     static let InsetSizeCompact: CGFloat = 6
+     static func insetsForCollectionViewSize(size: CGSize, traitCollection: UITraitCollection) -> UIEdgeInsets {
+@@ -172,6 +173,20 @@ class ThumbnailCell: UICollectionViewCell {
+         return backgroundImage
+     }()
+
++    lazy var selectedOverlay: UIView = {
++        let selectedOverlay = UIView()
++        selectedOverlay.backgroundColor = ThumbnailCellUX.SelectedOverlayColor;
++        selectedOverlay.hidden = true
++        return selectedOverlay
++    }()
++
++    override var selected: Bool {
++        didSet {
++            super.selected = selected
++            self.selectedOverlay.hidden = (selected) ? false : true
++        }
++    }
++
+     override init(frame: CGRect) {
+         super.init(frame: frame)
+
+@@ -188,6 +203,7 @@ class ThumbnailCell: UICollectionViewCell {
+         }
+         imageWrapper.addSubview(imageView)
+         imageWrapper.addSubview(textWrapper)
++        imageWrapper.addSubview(selectedOverlay)
+         textWrapper.addSubview(textLabel)
+         contentView.addSubview(removeButton)
+
+@@ -196,6 +212,10 @@ class ThumbnailCell: UICollectionViewCell {
+             make.left.right.equalTo(self.imageWrapper) // .offset(ThumbnailCellUX.BorderWidth)
+         }
+
++        selectedOverlay.snp_makeConstraints { make in
++            make.edges.equalTo(self.imageWrapper)
++        }
++
+         textLabel.snp_remakeConstraints { make in
+             make.edges.equalTo(self.textWrapper).inset(ThumbnailCellUX.LabelInsets) // TODO swift-2.0 I changes insets to inset - how can that be right?
+         }
